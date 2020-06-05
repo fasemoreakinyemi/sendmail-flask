@@ -49,7 +49,7 @@ def send_to_all():
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
 
-    list_of_address = ["martinluttap@gmail.com", "sukaberkhayal@gmail.com"]
+    list_of_address = ["fadhilikurnia@gmail.com", "sukaberkhayal@gmail.com"]
 
     try:
         for address in list_of_address:
