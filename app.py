@@ -50,14 +50,23 @@ def send_to_all():
     sender = os.getenv("MAIL_USERNAME")
     mail_subject = data_mail_subject
 
+    failed_sent = []
+
     print("Starting to send email ...")
     for address in list_of_address:
         try:
             send_mail(address, sender, mail_subject)
         except:
+            failed_sent.append(address)
             print("failed to send email to " + address)
-            
+
     print("All emails sent!")
+
+    # store failed sent data
+    with open("data/failed_recepitns.txt", "w") as txt_file:
+        for line in failed_sent:
+            txt_file.write(line + "\n")
+
     return "Please watch the server log!"
 
 if __name__ == "__main__":
