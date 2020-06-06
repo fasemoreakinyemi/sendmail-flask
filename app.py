@@ -38,7 +38,7 @@ def send_to_all():
     app.config['MAIL_SERVER']= os.getenv("MAIL_SERVER")
     app.config['MAIL_PORT'] = os.getenv("MAIL_PORT")
     app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
-    app.config['MAIL_PASSWORD'] = os.getenv("MAIL_SERVER")
+    app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
 
@@ -50,11 +50,15 @@ def send_to_all():
     sender = os.getenv("MAIL_USERNAME")
     mail_subject = data_mail_subject
 
-    try:
-        for address in list_of_address:
+    print("Starting to send email ...")
+    for address in list_of_address:
+        try:
             send_mail(address, sender, mail_subject)
-    finally:
-        return "Please watch the server log!"
+        except:
+            print("failed to send email to " + address)
+            
+    print("All emails sent!")
+    return "Please watch the server log!"
 
 if __name__ == "__main__":
     app.run(debug=True)
