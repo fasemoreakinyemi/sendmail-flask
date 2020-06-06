@@ -63,7 +63,7 @@ def send_to_all():
     print("All emails sent!")
 
     # store failed sent data
-    with open("data/failed_recepitns.txt", "w") as txt_file:
+    with open("data/failed_recepients.txt", "w") as txt_file:
         for line in failed_sent:
             txt_file.write(line + "\n")
 
