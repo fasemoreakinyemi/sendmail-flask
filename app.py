@@ -27,9 +27,7 @@ def send_mail(target_address, sender, subject):
     msg.body = data_mail_template
     msg.body = msg.body.replace('{{EMAIL}}', target_address)
 
-    print(msg.body)
-
-    # mail.send(msg)
+    mail.send(msg)
     print("Message sent to " + target_address)
 
     return None
