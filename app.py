@@ -19,13 +19,14 @@ data_mail_subject = ""
 with open('data/email_subject.txt', 'r') as file:
     data_mail_subject = file.read().replace('\n', '')
 
-def send_mail(target_address, sender, subject):
+def send_mail(target_address, sender, subject, body_data):
     mail = Mail(app)
 
     msg = Message(subject, sender=sender, recipients=[target_address])
 
     msg.body = data_mail_template
     msg.body = msg.body.replace('{{EMAIL}}', target_address)
+    msg.body = msg.body.replace('{{NAME}}', body_data[target_address])
 
     mail.send(msg)
     print("Message sent to " + target_address)
@@ -47,6 +48,17 @@ def send_to_all():
     with open ("data/recepients.txt", "r") as myfile:
         list_of_address=myfile.readlines()
 
+    # load body data from data directory.
+    # Modify this section according to desired email template.
+    body_data = {}
+    with open ("data/body_data.csv", "r") as myfile:
+        next(myfile)
+        for line in myfile.readlines():
+            line = line.strip().split(',')
+            address = line[0]
+            name = line[1]
+            body_data[address] = name
+
     sender = os.getenv("MAIL_USERNAME")
     mail_subject = data_mail_subject
 
@@ -55,7 +67,7 @@ def send_to_all():
     print("Starting to send email ...")
     for address in list_of_address:
         try:
-            send_mail(address, sender, mail_subject)
+            send_mail(address, sender, mail_subject, body_data)
         except:
             failed_sent.append(address)
             print("failed to send email to " + address)
